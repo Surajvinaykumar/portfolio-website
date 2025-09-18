@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anomaly Detector</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Domine:wght@700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: white;
+            font-family: 'Instrument Serif', serif;
+            color: #000000;
+            line-height: 1.6;
+        }
+
+        header {
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav a {
+            margin: 0 15px;
+            color: #000000;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Domine', serif;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        .about-text {
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            color: #000000;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .note {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-left: 3px solid #ccc;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: #000000;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About Me</a>
+            <a href="projects.html">Projects</a>
+            <a href="thoughts.html">Thoughts</a>
+            <a href="https://www.linkedin.com/in/surajvinaykumar/">Linkedin</a>
+            <a href="mailto:srjvnkmr@gmail.com">Email</a>
+        </nav>
+    </header>
+
+    <main>
+        
+
+        <h1>StratusAI</h1>
+
+        <section>
+            <h2>Description</h2>
+            <p class="about-text">
+               I developed StratusAI, a real-time network threat detection tool that processes raw packet traffic to generate 
+               live insights and anomaly alerts. The system leverages deep packet inspection with JA3 TLS fingerprinting to flag 
+               suspicious fingerprints and incorporates an autoencoder-based neural network for anomaly detection, achieving over 
+               99% accuracy, precision, and recall. By aggregating traffic flows instead of individual packets, it reduces noise and 
+               provides richer context to identify scanning, beaconing, and data exfiltration behaviors.
+                <br><br>
+                To make these insights accessible, I built a full-stack React dashboard featuring real-time charts for 
+                bandwidth and anomaly levels, live alerts with detailed drill-downs, and a 3D globe visualization that
+                maps source-to-destination IP traffic by threat level. The project was powered by Python (Scapy, Pandas, Torch, Watchdog), 
+                PyTorch for neural networks, JA3 for TLS fingerprinting, and custom flow aggregation logic.
+                <br><br>
+                This project is still in progress as I continue refining detection models and expanding dashboard features.
+            </p>
+            </section>
+
+        
+
+        <section>
+            <h2>Technologies</h2>
+            <p class="about-text">Python (Scapy, Pandas, Torch, Watchdog), PyTorch for neural networks, JA3 for TLS fingerprinting</p>
+        </section>
+
+        <section>
+            <h2>Links</h2>
+            <p class="about-text">
+                <a href="https://youtu.be/ZYBqNLbQEqM">Demo</a> 
+                <p>It's an MVP so I am not sure about making the code base public still, but feel free to give any feedbacks on youtube comments section</p>                
+            </p>
+        </section>
+    </main>
+</body>
+</html>
