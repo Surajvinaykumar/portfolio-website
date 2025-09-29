@@ -1,0 +1,275 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "10357610-2959-4281-8558-06823e1cfb95",
+      "name": "Telegram Trigger",
+      "webhookId": "b3653ab8-e939-48a0-aa30-a7b5d5ed2042",
+      "credentials": {
+        "telegramApi": {
+          "id": "8wBmbE51WZFGdW2a",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=    {{ $json.message.text }}",
+        "options": {
+          "systemMessage": "=## Role:\n\nYou are a highly intelligent personal expense tracker.\n\n## Task:\n\nYou will understand the user's message and update the spreadsheet accordingly.\n\n## Instructions:\n\n### Current date:\n- the current date is: 15/09/2025\n\n### Understand the user's expense.\n\n* understand the user's message the details about the expense. You need to fill these columns on the sheet: Date, Personal/business, Description, Amount(USD), Type.\n\n### Updating the sheet\n\n* Use the \"Google Sheets\" tool to update the sheet.\n\n## Constraints:\n\n* if some of the columns are not clear, ask the user for clarification.\n\n## Example structure:\n\n| Date    | Personal/Business | Description | Amount(USD) | Type |\n| ---------- | ------------------- | ----------- | ------------ | ------- | \n| 15.09.2025 | personal        | Netflix    | 15.99    | Monthly  |\n\nNote: if you update the sheet, tell the user how you updated it in this format:\n\nDate: 15.09.2025\nPersonal/Business: personal\nDescription: Netflix\nAmount(USD): 15.99\nType: Monthly\n\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "280129ba-76b6-4889-95b7-971c13b2e200",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        240
+      ],
+      "id": "562f2a3b-cea1-4963-b366-a08d8385eaa2",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "nsLyiqnTr3Atwxv0",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.message.chat }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        240,
+        304
+      ],
+      "id": "a56ca2de-d47f-447e-88ad-16a02d501184",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        560,
+        0
+      ],
+      "id": "a8e1a31b-2650-4dae-bc65-45b1e6ee1bbe",
+      "name": "Send a text message",
+      "webhookId": "b3146327-4562-42e2-bdb8-eeb81c5f5084",
+      "credentials": {
+        "telegramApi": {
+          "id": "8wBmbE51WZFGdW2a",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1I25GTtAFmGeEYzwl7KqTYqXKxO5mjtZQDqbtcoh-SNM",
+          "mode": "list",
+          "cachedResultName": "n8n_accountant",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1I25GTtAFmGeEYzwl7KqTYqXKxO5mjtZQDqbtcoh-SNM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1I25GTtAFmGeEYzwl7KqTYqXKxO5mjtZQDqbtcoh-SNM/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Date', ``, 'string') }}",
+            "Personal/Business": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Personal_Business', ``, 'string') }}",
+            "Description": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Description', ``, 'string') }}",
+            "Amount(USD)": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Amount_USD_', ``, 'string') }}",
+            "Type": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Type', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Personal/Business",
+              "displayName": "Personal/Business",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Amount(USD)",
+              "displayName": "Amount(USD)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Type",
+              "displayName": "Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "useAppend": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        496,
+        256
+      ],
+      "id": "b12394a7-1f30-41a2-901e-b04a2f63489e",
+      "name": "Append row in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gz4fpaczDT3JtgX6",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "25d744ee-3820-40fc-b0a6-dfd93c038766",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cf314f9faf8730d205b8167f8142897413e71fd0aaf72cfb018ea3dc2f1acb8a"
+  },
+  "id": "lcbRMxj6Czm08k8Y",
+  "tags": []
+}
