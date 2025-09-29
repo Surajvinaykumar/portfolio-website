@@ -1,0 +1,301 @@
+{
+  "name": "resume review bot",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -320,
+        -288
+      ],
+      "id": "b20dea8f-7e15-4bee-ade4-ecc6b9b2bafd",
+      "name": "Telegram Trigger",
+      "webhookId": "47b70752-36bb-4a6b-984d-f8bdfa285339",
+      "credentials": {
+        "telegramApi": {
+          "id": "X47KE8LxYpPpkfHT",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.document.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        -592
+      ],
+      "id": "2e8062e2-4711-450a-a932-db6333ad3d55",
+      "name": "Get a file",
+      "webhookId": "736e012d-dc02-467b-84ce-87d4a29d0d6a",
+      "credentials": {
+        "telegramApi": {
+          "id": "X47KE8LxYpPpkfHT",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8e1f2a95-9c3c-432b-af25-7b64fcc76d94",
+              "leftValue": "={{ $json.message.document.file_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -96,
+        -288
+      ],
+      "id": "321b917c-a26e-4629-8673-93622f0c7968",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }} || {{ $json.text }}",
+        "options": {
+          "systemMessage": "=You are a conversational assistant integrated into a Telegram bot. Your goal is to analyze a\nuser’s resume file against a specific job title and return a detailed, section-by-section report with\nnumeric ratings and bullet-pointed feedback. Follow these instructions:\nLet variable file attachment = {{ $json.text }}\n\n\n1. Track two boolean flags:\n- hasResume = false\n- hasJobTitle = false\n\n2. When the user sends a message:\na. If the message contains a file attachment or the value of the variable file attachment is not\n“undefined” and hasResume == false:\n- Set hasResume = true.\n- Reply: \"Thank you for sharing your resume. Which job title should I use for this analysis?\"\n- Do not attempt analysis until hasJobTitle == true.\nb. If the message is text and mentions a clear job title (e.g.,\n\"Senior Frontend Developer\"\n,\n\"React.js Developer\") and hasJobTitle == false:\n- Extract the job title into variable jobTitle.\n- Set hasJobTitle = true.\n- If hasResume == false, reply: \"Got it—\\\"{jobTitle}\\\"\n. Please attach your resume so I can\nanalyze it against this job title.\n\"\n- If hasResume == true, proceed to analysis immediately.\nc. If hasResume == false and hasJobTitle == false:\n- Reply: \"Please attach your resume so I can begin the analysis.\n\"\nd. If hasResume == true and hasJobTitle == false:\n- Reply: \"Thank you for sharing your resume. Which job title should I use for this analysis?\"\ne. If hasResume == false and hasJobTitle == true:\n- Reply: \"Got it—\\\"{jobTitle}\\\"\n. Please attach your resume so I can analyze it against this job\ntitle.\n\"\nf. If hasResume == true and hasJobTitle == true:\n- Extract the resume text content and the jobTitle variable.\n- Perform a detailed, section-by-section evaluation of the resume for the given jobTitle.\n- Structure your response with these headings, each followed by a numeric rating (0–10)\nand bullet-pointed strengths and improvements:\n\n  1. Formatting & Structure (Rating: X/10)\n    - Strength: ...\n    - Strength: ...\n    - Improvement: ...\n    - Improvement: ...\n  2. Contact Information & Header (Rating: X/10)\n    - Strength: ...\n    - Improvement: ...\n    - ...\n  3. Professional Summary / Objective (Rating: X/10)\n    - Strength: ...\n    - Improvement: ...\n  4. Technical Skills (Rating: X/10)\n    - Strength: ...\n    - Missing: ...\n  5. Professional Experience (Rating: X/10)\n    - Strength: ...\n    - Improvement: ...\n  6. Education & Certifications (Rating: X/10)\n    - Strength: ...\n    - Improvement: ...\n  7. Projects & Additional Sections (Rating: X/10)\n    - Strength: ...\n    - Improvement: ...\n  8. ATS Optimization & Keywords (Rating: X/10)\n    - Missing keyword: ...\n    - Improvement: ...\n  9. Soft Skills & Leadership (Rating: X/10)\n    - Strength: ...\n    - Improvement: ...\n  10. Overall Recommendations\n    - ...\n    - ...\n  - Use proper grammar and a professional tone.\n  - End the conversation; do not continue prompting.\n\n3. All system prompts and user-facing replies should use clear, grammatically correct\nsentences.\n\n4. Do not output any Markdown or HTML—only plain text with dashes for bullet points.\n\nBegin processing messages according to these rules."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        160,
+        -240
+      ],
+      "id": "3782d154-6482-4821-b6b4-e6feb9d2a2c1",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        176,
+        -64
+      ],
+      "id": "5526495f-e19a-4f04-a2ba-3579b1103f6b",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "6uq1YCjgCV6yU2NO",
+          "name": "OpenAi account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        464,
+        -352
+      ],
+      "id": "6f1b04e4-2f98-4c12-be1e-2aabfc48cc0b",
+      "name": "Send a text message",
+      "webhookId": "b0ea42f8-30bb-4c34-8cd0-d9e1a45909b8",
+      "credentials": {
+        "telegramApi": {
+          "id": "X47KE8LxYpPpkfHT",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Telegram Trigger').item.json.message.from.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        256,
+        64
+      ],
+      "id": "cc573795-63b9-4cb5-a472-a3513a80300a",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        256,
+        -592
+      ],
+      "id": "4a20065d-a97c-4a56-9ce7-e286c1299b93",
+      "name": "Extract from File"
+    }
+  ],
+  "pinData": {
+    "Telegram Trigger": [
+      {
+        "json": {
+          "update_id": 395183592,
+          "message": {
+            "message_id": 58,
+            "from": {
+              "id": 7549895627,
+              "is_bot": false,
+              "first_name": "Suraj",
+              "last_name": "V",
+              "language_code": "en"
+            },
+            "chat": {
+              "id": 7549895627,
+              "first_name": "Suraj",
+              "last_name": "V",
+              "type": "private"
+            },
+            "date": 1759108837,
+            "text": "Ai product manager"
+          }
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "e9de06ca-f543-474d-b642-438f82d0dd63",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cf314f9faf8730d205b8167f8142897413e71fd0aaf72cfb018ea3dc2f1acb8a"
+  },
+  "id": "ysP6eREOYPy8WwCs",
+  "tags": []
+}

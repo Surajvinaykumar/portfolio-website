@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Reviewer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Domine:wght@700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: white;
+            font-family: 'Instrument Serif', serif;
+            color: #000000;
+            line-height: 1.6;
+        }
+
+        header {
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav a {
+            margin: 0 15px;
+            color: #000000;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Domine', serif;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        .about-text {
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            color: #000000;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .note {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-left: 3px solid #ccc;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: #000000;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About Me</a>
+            <a href="projects.html">Projects</a>
+            <a href="thoughts.html">Thoughts</a>
+            <a href="https://www.linkedin.com/in/surajvinaykumar/">Linkedin</a>
+            <a href="mailto:srjvnkmr@gmail.com">Email</a>
+        </nav>
+    </header>
+
+    <main>
+        
+
+        <h1>Resume reviewer</h1>
+
+        <section>
+            <h2>Description</h2>
+            <p class="about-text">
+                I wanted to build something that makes resume writing a little less overwhelming. 
+                Many of us know the struggle of tailoring a resume for each job application, 
+                so I decided to create a Telegram bot that could review resumes in a simple, interactive way. 
+                The idea was to give users instant, role-specific feedback on their resumes without making the process feel heavy or complicated.
+                <p>&nbsp;</p>
+                To make this work, I used n8n as the backbone of the workflow and connected it with OpenAI’s GPT 4.1 mini for the analysis.
+                 The bot first checks whether you’ve uploaded a file or just text. If it’s a file, 
+                 the content gets extracted through the “Extract from file” node, then passed to the AI for role-based review. 
+                 I also added a simple Memory node so the bot can handle longer context smoothly. 
+                 Once the analysis is complete, the feedback is sent back instantly on Telegram, making the experience feel seamless.
+                I will be keeping the bot live for a few days. Feel free to try it out and let me know your feedback.
+                You can find it at CVanalysis_bot on Telegram. Or you can search for Resume_reviewer_bot
+            </p>
+
+                
+            </section>
+
+        
+
+        <section>
+            <h2>Technologies</h2>
+            <p class="about-text">n8n, Telegram Bot</p>
+        </section>
+
+        <section>
+            <h2>Links</h2>
+            <p class="about-text">
+                <li><a href="https://youtu.be/ipmZ7476vMA">Demo</a></li>
+                
+                <li><a href="resume review bot.json">JSON</a></li>
+                
+                <li><h3>Workflow</h3></li> 
+                <p>&nbsp;</p>
+                <img src="Resume_reviewer_n8n.png" alt="n8n workflow img" width="550" height="400" style="border-radius: 0;">
+
+
+
+                
+            </p>
+        </section>
+    </main>
+</body>
+</html>
