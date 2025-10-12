@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI powered job application</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Domine:wght@700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: white;
+            font-family: 'Instrument Serif', serif;
+            color: #000000;
+            line-height: 1.6;
+        }
+
+        header {
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav a {
+            margin: 0 15px;
+            color: #000000;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Domine', serif;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        .about-text {
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            color: #000000;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .note {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-left: 3px solid #ccc;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: #000000;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About Me</a>
+            <a href="projects.html">Projects</a>
+            <a href="thoughts.html">Thoughts</a>
+            <a href="https://www.linkedin.com/in/surajvinaykumar/">Linkedin</a>
+            <a href="mailto:srjvnkmr@gmail.com">Email</a>
+        </nav>
+    </header>
+
+    <main>
+        
+
+        <h1>AI-Powered Job Search Automation</h1>
+
+        <section>
+            <h2>Description</h2>
+            <p class="about-text">
+                This project details the end-to-end development of a robust, AI-integrated workflow designed to revolutionize the job search 
+and initial application phase. Built entirely within n8n, the automation is initiated daily by a Cron trigger, precisely set to activate at 9:00 AM. 
+The core data acquisition begins with an HTTP Request node configured to interact with SerpApi, effectively bypassing common bot detection mechanisms 
+to reliably scrape Google Jobs. This initial data pull is highly targeted, applying predefined filters for specific job roles  within the United States, 
+and crucially, only for postings less than a week old. The raw JSON output from SerpApi is then meticulously processed: a Split Out node transforms the 
+job array into individual items, followed by an Edit Fields (Set) node that standardizes field names (e.g., `title` to `jobTitle`, `link` to `jobUrl`) and 
+enriches each item with a `source` identifier. A subsequent Remove Duplicates node ensures that only unique job postings from the current fetch proceed, 
+preventing redundant processing.
+                <p>&nbsp;</p>
+                The workflow then intelligently manages job tracking and personalized Cover letter. A parallel Google Sheets node retrieves all existing 
+job URLs from a dedicated "Job Application Tracker" spreadsheet, which is then fed into a Merge node. This Merge node performs a crucial anti-join operation, 
+filtering out any newly sourced jobs that are already present in the tracker, ensuring only truly fresh opportunities are considered. These genuinely new jobs are 
+then appended as new rows to the Google Sheet, automatically setting their status to "New." Concurrently, a separate branch of the workflow focuses on daily 
+reminders: it queries the Google Sheet for all jobs with a "New" status, and a Code node dynamically formats these into a compelling HTML list. 
+This list is then delivered to my inbox via a Gmail node, providing a concise daily digest of actionable leads. The pinnacle of this automation is 
+the AI-powered cover letter generation: for each new job appended to the sheet, an AI Agent node, integrated with OpenRouter using 
+NVIDIA/nemotron-nano-9b-v2:free model , crafts a custom cover letter. This agent is provided with the job's title, company, description, 
+and my full resume content (pre-loaded via an Edit Fields node), guided by a system prompt to deliver a concise and professionally signed letter. 
+Finally, each generated cover letter is automatically saved as a distinct Google Doc in a specified Google Drive folder, ensuring a well-organized 
+repository of tailored application materials. This comprehensive system transforms the job application process into a highly efficient, intelligent, 
+and personalized experience.
+                
+            </section>
+
+        
+
+        <section>
+            <h2>Technologies</h2>
+            <p class="about-text">n8n, Google Cloud APIs(sheets, drive, Gmail), serpAPI, Openrouter </p>
+        </section>
+
+        <section>
+            <h2>Links</h2>
+             <p class="about-text">
+                <li><a href="https://youtu.be/YV-NvsHHRR8">Demo</a></li>
+                <li><a href="expensetracker.json">JSON</a></li>
+                <li><h3> Workflow</h3></li>
+                <p>&nbsp;</p>
+                <img src="expensetracker.png" alt="n8n workflow img" width="650" height="400" style="border-radius: 0;">
+
+            </p>
+        </section>
+    </main>
+</body>
+
+</html>
+
