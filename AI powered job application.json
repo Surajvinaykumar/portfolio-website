@@ -1,0 +1,920 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        304
+      ],
+      "id": "9fe2edcb-b620-4494-95ce-e5878ec49a8f",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "5a327bda811b8c156e456b5d9dacdc9e7538fee3ca7d25c4a7be7fe00f1c6e45"
+            },
+            {
+              "name": "engine",
+              "value": "google_jobs"
+            },
+            {
+              "name": "q",
+              "value": "Associate Product Manager OR Technical Product Manager OR AI Product Manager"
+            },
+            {
+              "name": "location",
+              "value": "United States"
+            },
+            {
+              "name": "age",
+              "value": "past_week"
+            },
+            {
+              "name": "output",
+              "value": "json"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        224,
+        32
+      ],
+      "id": "39b8d424-c0a1-4ce4-8141-b3f74c15fe67",
+      "name": "HTTP Request",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "operation": "google_jobs",
+        "q": "\"Associate Product Manager\" OR \"Technical Product Manager\" OR \"AI Product Manager\" OR \"Product Manager\"",
+        "additionalFields": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-serpapi.serpApi",
+      "typeVersion": 1,
+      "position": [
+        448,
+        32
+      ],
+      "id": "96efa8bd-870a-4988-a7bc-4e45bbde6e9c",
+      "name": "Google_jobs search",
+      "credentials": {
+        "serpApi": {
+          "id": "hsTr53NGfXU5zcVm",
+          "name": "SerpAPI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "jobs_results",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        672,
+        32
+      ],
+      "id": "5607a66a-e6f2-4b1d-821f-b13517c986e9",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00d0557b-7963-403f-a8dd-ae1b42c7d83a",
+              "name": "jobTitle",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "b610a2e3-320b-42f2-96cd-da6060c0399a",
+              "name": "companyName",
+              "value": "={{ $json.company_name }}",
+              "type": "string"
+            },
+            {
+              "id": "ef273eaa-908b-43e0-b5ad-2756590005ba",
+              "name": "jobUrl",
+              "value": "={{ $json.share_link }}",
+              "type": "string"
+            },
+            {
+              "id": "8e0fed63-d3a5-4c0e-b80d-8e906fe65333",
+              "name": "postedDate",
+              "value": "={{ $json.detected_extensions.posted_at }}",
+              "type": "string"
+            },
+            {
+              "id": "40f0b8d7-44ff-450b-be52-4240e5ac852a",
+              "name": "source",
+              "value": "Google Jobs",
+              "type": "string"
+            },
+            {
+              "id": "30d438e4-0169-4bc7-9070-e3cbf75865cd",
+              "name": "description",
+              "value": "={{ $json.description }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        32
+      ],
+      "id": "0dc2121c-cf47-44b9-8f21-e96a0bfc6f49",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "compare": "={{ $json.jobUrl }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        32
+      ],
+      "id": "eeb7de19-dce7-47c9-926a-341dfa157ba1",
+      "name": "Remove Duplicates"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1WovGn_hINpkUkXb_D0Fg1vNNZ6YSgGcxn3PLrCTr4kA",
+          "mode": "list",
+          "cachedResultName": "job application tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1WovGn_hINpkUkXb_D0Fg1vNNZ6YSgGcxn3PLrCTr4kA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1WovGn_hINpkUkXb_D0Fg1vNNZ6YSgGcxn3PLrCTr4kA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "jobURL": "={{ $json.jobUrl }}",
+            "jobTitle": "={{ $json.jobTitle }}",
+            "companyName": "={{ $json.companyName }}",
+            "postedDate": "={{ $json.postedDate }}",
+            "source": "={{ $json.source }}",
+            "status": "New"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "jobURL",
+              "displayName": "jobURL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "jobTitle",
+              "displayName": "jobTitle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "companyName",
+              "displayName": "companyName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "postedDate",
+              "displayName": "postedDate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "source",
+              "displayName": "source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "appliedDate",
+              "displayName": "appliedDate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1344,
+        -16
+      ],
+      "id": "75e00d25-6d6c-4da9-8257-f1f374a24d7d",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "qP2cf33lL70MzNPy",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "fieldsToMatchString": "jobUrl",
+        "joinMode": "keepNonMatches",
+        "outputDataFrom": "input1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1344,
+        224
+      ],
+      "id": "c5d9ad71-a0bb-47e6-9577-7ef0a29a53eb",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1WovGn_hINpkUkXb_D0Fg1vNNZ6YSgGcxn3PLrCTr4kA",
+          "mode": "list",
+          "cachedResultName": "job application tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1WovGn_hINpkUkXb_D0Fg1vNNZ6YSgGcxn3PLrCTr4kA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1WovGn_hINpkUkXb_D0Fg1vNNZ6YSgGcxn3PLrCTr4kA/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1120,
+        272
+      ],
+      "id": "eb029b62-bd99-4507-af89-2fa26bfbce68",
+      "name": "get existing job URL",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "qP2cf33lL70MzNPy",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1WovGn_hINpkUkXb_D0Fg1vNNZ6YSgGcxn3PLrCTr4kA",
+          "mode": "list",
+          "cachedResultName": "job application tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1WovGn_hINpkUkXb_D0Fg1vNNZ6YSgGcxn3PLrCTr4kA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1WovGn_hINpkUkXb_D0Fg1vNNZ6YSgGcxn3PLrCTr4kA/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "status",
+              "lookupValue": "New"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        576
+      ],
+      "id": "5fe19d72-35f4-4d5d-bcca-e39cf7c08d66",
+      "name": "get new job reminders",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "qP2cf33lL70MzNPy",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst jobListings = [];\n\nif (items.length === 0) {\n    jobListings.push(\"No new job openings found today. Keep checking back!\");\n} else {\n    jobListings.push(\"Here are your new job openings, review and apply:\");\n    jobListings.push(\"<ul>\");\n    for (const item of items) {\n        const jobTitle = item.json.jobTitle;\n        const companyName = item.json.companyName;\n        const jobUrl = item.json.jobUrl;\n        const source = item.json.source;\n\n        jobListings.push(\n            `<li><strong>${jobTitle}</strong> at ${companyName} (Source: ${source})<br/><a href=\"${jobUrl}\">Apply Here</a></li>`\n        );\n    }\n    jobListings.push(\"</ul>\");\n}\n\nconst emailBody = jobListings.join('\\n');\n\nreturn [{\n    json: {\n        emailBody: emailBody,\n        newJobsCount: items.length // Useful for the subject line\n    }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        576
+      ],
+      "id": "7aaa3bd1-5a8a-4eaf-87ab-8421841a0cb5",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "sendTo": "srjvnkmr@gmail.com",
+        "subject": "=daily job reminder - {{ $json.newJobsCount }}",
+        "message": "={{ $json.emailBody }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        672,
+        576
+      ],
+      "id": "d5ae9372-cb93-4963-a319-80c0c6781e05",
+      "name": "Send a message",
+      "webhookId": "e87d6cf8-55de-4a33-b360-e4b14731149e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "PpvNVn100I5RHERh",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6205a2d9-29b3-4c4b-8faf-e231293adb9e",
+              "name": "resumeContent",
+              "value": "Suraj Vinaykumar \n+1 4082076529\n srjvnkmr@gmail.com \nSan Francisco, CA, USA\n \n EDUCATION & CERTIFICATIONS\n San Jose State University, California\n January 2024 - December 2025\n Masters of Science in Engineering Technology, GPA - 3.7\n Specialization in Applied Network Systems, Courses: Six-Sigma and Continuous Improvement Systems Management, ML applications\n KLS Gogte Institute of Technology, Belgaum, KA\n Bachelors of Engineering in  Electronics and Communication, GPA - 3.2\n Courses: Computer Networks , Python, C, Analog Electronics\n August 2017 - August 2021\n TECHNICAL SKILLS\n AI/ML Product Leadership: End-to-end product ownership, ML model optimization, KPI definition, cross-functional development\n across ML engineering and UX, ML - driven product vision.\n Product Strategy & Analytics: User research, product-market fit validation, data-driven decision making using A/B testing and\n statistical modeling\n Technical Stack: ML prototyping (PyTorch, scikit-learn), full-stack development (React, Node.js, Python), prompt engineering, n8n\n w, AI security products (anomaly detection, DPI), product analytics, statistical modeling for performance optimization\n PROJECTS\n StratusAI – RealTime Network Threat Detection Platform\n Identified market gap in encrypted traffic analysis, defining ML-driven product vision achieving 95% detection accuracy\n Led cross-functional development across ML engineering and UX, reducing analyst response time by 40%\n Defined KPIs for anomaly detection (precision/recall thresholds), aligning with user needs for faster incident triage.\n Owned ML pipeline requirements (autoencoder, DPI integration) and designed real-time React dashboard with visualizations\n Conducted user research with security analysts to validate pain points and establish product-market fit.\n \n Echoes of Time-Calhacks 12.0 \nConceptualized AI-powered video-to-music transformation product using Google Gemini + DeepMind Lyria for creative market\n Deployed a scalable full-stack solution (Node.js, Google VertexAI) handling 100MB media uploads with real-time outputs.\n Built scalable architecture handling 10MB+ media uploads with real-time AI processing and automated pipeline\n Validated product concept through user testing and positioned for consumer AI-generated content market.\n \n Personal Accountant AI Agent —n8n workflow automation\n Identified opportunity in personal finance automation, designing conversational AI product using n8n platform for expense\n tracking via Telegram bot interface\n Built end-to-end automated workflow integrating Google Sheets API, real-time currency conversion, and natural language\n processing for seamless user experience\n Engineered prompts for natural language outputs and follow-up questioning, overcoming JSON parsing constraints.\n Validated product concept for AI agent marketplace positioning, demonstrating scalable automation framework for personal\n productivity applications. \n\n PROFESSIONAL EXPERIENCE\n Juniper Networks (India)\n Software Engineer  - 2\n April 2022 - November 2022\n Partnered with senior engineers and product teams to design and validate testbeds for Contrail Cloud Native Routing,\n ensuring alignment with product requirements and customer use cases.\n Led the development of a cloud-native testbed for Contrail on OpenStack, coordinating infrastructure setup with multiple\n routers and nodes, and streamlining automation testing workflows to enhance product quality and scalability.\n Automated syslog backup workflows for routers and switches, improving system reliability and reducing manual operational\n overhead by 30%.\n Defined automation strategy for QA processes, shortening release cycles and enabling faster delivery of new features.\n Brigade Group (India)\n Trainee - Network Security\n September 2021 - March 2022\n Assisted in web vulnerability assessments and penetration testing, helping create reports that supported engineering teams in\n improving website security.\n Worked with vendors and compliance teams to learn and apply security standards and regulatory requirements.\n Supported network troubleshooting and basic risk assessments, contributing to decisions that improved protection against\n security threats.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1344,
+        624
+      ],
+      "id": "84403970-7c03-4285-aad7-7f3ccc9b0138",
+      "name": "resume content"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1WovGn_hINpkUkXb_D0Fg1vNNZ6YSgGcxn3PLrCTr4kA",
+          "mode": "list",
+          "cachedResultName": "job application tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1WovGn_hINpkUkXb_D0Fg1vNNZ6YSgGcxn3PLrCTr4kA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1WovGn_hINpkUkXb_D0Fg1vNNZ6YSgGcxn3PLrCTr4kA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "jobURL": "={{ $json.jobUrl }}",
+            "companyName": "={{ $json.companyName }}",
+            "jobTitle": "={{ $json.jobTitle }}",
+            "source": "={{ $json.source }}",
+            "postedDate": "={{ $json.postedDate }}",
+            "status": "new"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "jobURL",
+              "displayName": "jobURL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "jobTitle",
+              "displayName": "jobTitle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "companyName",
+              "displayName": "companyName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "postedDate",
+              "displayName": "postedDate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "source",
+              "displayName": "source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "appliedDate",
+              "displayName": "appliedDate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1568,
+        224
+      ],
+      "id": "753a5160-7c52-4632-a2fa-d18604c1eb89",
+      "name": "truly new",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "qP2cf33lL70MzNPy",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1520,
+        480
+      ],
+      "id": "2b256dff-deef-4f3b-9a71-437165db6dab",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Job Title: {{ $json.jobTitle }}\nCompany: {{ $json.companyName }}\nJob Description: {{ $('Merge').item.json.description }}\n\nMy Resume:\n{{ $json.resumeContent }}",
+        "options": {
+          "systemMessage": "You are an expert career coach and cover letter writer. Your task is to write a concise and compelling cover letter for the job title provided, and to emphasize genuine interest for the job description. The cover letter should be a maximum of 300 words. End the letter with \"Kind regards,\" followed by \"Suraj Vinaykumar\"."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1792,
+        480
+      ],
+      "id": "73828010-6407-4249-9fbe-ab667a64b9c3",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "nvidia/nemotron-nano-9b-v2:free",
+        "options": {
+          "maxTokens": 400,
+          "temperature": 0.5
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        1744,
+        736
+      ],
+      "id": "b16fcff0-24ba-4193-b386-7f7932b973c4",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "N4N6H4UDNfSnL16B",
+          "name": "OpenRouter account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## cover letter \n",
+        "height": 448,
+        "width": 848,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1312,
+        432
+      ],
+      "typeVersion": 1,
+      "id": "3fe9e7af-65ff-4b32-9bbd-5cb98ae14438",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## email notification\n",
+        "height": 304,
+        "width": 704,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        160,
+        496
+      ],
+      "typeVersion": 1,
+      "id": "59041c3e-1ea9-4982-be2a-22354547bdf4",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Google jobs scraping pipeline",
+        "height": 272,
+        "width": 1168,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        112,
+        -80
+      ],
+      "typeVersion": 1,
+      "id": "d0157025-7a0d-4d72-ba2f-a19080edd510",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "operation": "createFromText",
+        "content": "={{ $json.output }}",
+        "name": "=Cover Letter -  {{ $('Merge1').item.json.jobTitle }} - {{ $('Merge1').item.json.companyName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1GFOjL7JI1tFnSqFsE2p-REiKJtuSjeO6",
+          "mode": "list",
+          "cachedResultName": "Cover letters",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1GFOjL7JI1tFnSqFsE2p-REiKJtuSjeO6"
+        },
+        "options": {
+          "convertToGoogleDocument": true
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2224,
+        592
+      ],
+      "id": "d1fc94fc-2578-4db9-bfb2-542178c91b1a",
+      "name": "create cover letter and save it in a folder",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "028xK5OONpSV6ZpO",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Schedule Trigger": [
+      {
+        "json": {
+          "timestamp": "2025-10-10T14:06:08.000−07:00",
+          "Readable date": "October 10th 2025, 02:05:35 pm",
+          "Readable time": "02:05:35 pm",
+          "Day of week": "Friday",
+          "Year": "2025",
+          "Month": "October",
+          "Day of month": "10",
+          "Hour": "14",
+          "Minute": "04",
+          "Second": "35",
+          "Timezone": "America/Los_Angeles (UTC−07:00)"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "get existing job URL",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "get new job reminders",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "resume content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Google_jobs search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google_jobs search": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Remove Duplicates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicates": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get existing job URL": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "truly new",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get new job reminders": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "truly new": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "resume content": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "create cover letter and save it in a folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "create cover letter and save it in a folder": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a12cc668-65cc-4db2-9f39-e79bf4f185f2",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cf314f9faf8730d205b8167f8142897413e71fd0aaf72cfb018ea3dc2f1acb8a"
+  },
+  "id": "1i8yf6APDB7xcB8K",
+  "tags": []
+}
