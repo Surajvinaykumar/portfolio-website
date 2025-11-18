@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crisis Intelligence web app</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Domine:wght@700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: white;
+            font-family: 'Instrument Serif', serif;
+            color: #000000;
+            line-height: 1.6;
+        }
+
+        header {
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav a {
+            margin: 0 15px;
+            color: #000000;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Domine', serif;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        .about-text {
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            color: #000000;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .note {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-left: 3px solid #ccc;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: #000000;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About Me</a>
+            <a href="projects.html">Projects</a>
+            <a href="thoughts.html">Thoughts</a>
+            <a href="https://www.linkedin.com/in/surajvinaykumar/">Linkedin</a>
+            <a href="mailto:srjvnkmr@gmail.com">Email</a>
+        </nav>
+    </header>
+
+    <main>
+        
+
+        <h1>Crisis Intelligence web app</h1>
+
+        <section>
+            <h2>Description</h2>
+            <p class="about-text">
+               This project is a simple web application that helps visualize and monitor real-time global natural events from NASA’s EONET API. 
+It collects live data on things like wildfires, volcanoes, sea and lake ice, and severe storms, and displays them on an interactive map so you can easily see what’s happening around the world. 
+The idea behind building it was to create something that combines data, maps, and machine learning to make disaster information easy to understand and accessible for awareness, research, or quick insights.
+                <p>&nbsp;</p>
+                On the technical side, the app is built entirely in Python using Streamlit for the front-end interface and Folium for the interactive world map. 
+Data is fetched from NASA’s EONET API, which provides up-to-date information about natural events occurring globally.
+The app uses Pandas to clean and organize this data and stores it locally in a lightweight SQLite database. 
+A small Logistic Regression model, implemented using scikit-learn, is trained to assign a “priority score” to each event, 
+predicting which ones could have higher importance or risk. The app also includes a color-coded bar chart and map visualization 
+to make it easy to compare different event types such as wildfires, volcanoes, or ice formations. Overall, the goal was to build a functional, 
+visually appealing, and educational tool that brings together data analysis, machine learning, and visualization in one simple dashboard.
+
+            </p>
+
+                
+            </section>
+
+        
+
+        <section>
+            <h2>Technologies</h2>
+            <p class="about-text">Python, SQLite, Scikit-learn, Streamlit Cloud, Joblib (to save and load the trained model efficiently), Folium (for interactive world map)</p>
+        </section>
+
+
+        <section>
+            <h2>Links</h2>
+            <p class="about-text">
+                <li><a href="https://surajvinaykumar-crisis-intel-app-9lux5a.streamlit.app/">Live</a></li>
+                
+                <li><a href="https://github.com/Surajvinaykumar/crisis_intel/tree/main">Github</a></li>
+                
+                <li><h3>Dashboard</h3></li> 
+                <p>&nbsp;</p>
+                <img src="dashboard.png" alt="Dashboard img" width="550" height="400" style="border-radius: 0;">
+
+
+
+                
+            </p>
+        </section>
+    </main>
+</body>
+
+</html>
