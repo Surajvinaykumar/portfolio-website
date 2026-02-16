@@ -98,55 +98,42 @@
     </header>
 
     <main>
-        
-
-        <h1>Crisis Intelligence Web app</h1>
+        <h1>Echoes of Time</h1>
 
         <section>
             <h2>Description</h2>
-            <p class="about-text">
-               Developed at CalHacks 12.0 at UC Berkeley, Echoes of Time is a sophisticated multimodal web application that synchronizes 
-visual narrative with original auditory composition. The platform utilizes a custom-built Node.js backend to orchestrate a complex 
-AI pipeline, beginning with the automated extraction of video frames at one-second intervals from user-uploaded MP4 files. 
-These frames are processed by Google Gemini 1.5 Flash to conduct a comprehensive vision analysis, identifying thematic elements, 
-emotional cues, and environmental ambiance. This metadata is then translated into precise descriptive prompts for the Lyria-002 
-music generation model, which synthesizes a bespoke 30-second soundtrack tailored to the specific mood and pacing of the visual content.
+            <div class="about-text">
+                <p>
+                    Developed at CalHacks 12.0 at UC Berkeley, Echoes of Time is a sophisticated multimodal web application that synchronizes 
+                    visual narrative with original auditory composition. The platform utilizes a custom-built Node.js backend to orchestrate a complex 
+                    AI pipeline, beginning with the automated extraction of video frames at one-second intervals from user-uploaded MP4 files. 
+                    These frames are processed by Google Gemini 1.5 Flash to conduct a comprehensive vision analysis, identifying thematic elements, 
+                    emotional cues, and environmental ambiance. This metadata is then translated into precise descriptive prompts for the Lyria-002 
+                    music generation model, which synthesizes a bespoke 30-second soundtrack tailored to the specific mood and pacing of the visual content.
+                </p>
                 <p>&nbsp;</p>
-                The application prioritizes a professional user experience through a minimalist, responsive interface featuring drag-and-drop 
-functionality and real-time processing updates. Beyond simple media conversion, Echoes of Time provides an explainable AI component by presenting
-users with a detailed reasoning summary that justifies the musical choices—such as instrumentation and tempo—based on the detected visual elements. 
-Engineered for scalability within the Google Cloud ecosystem, the project demonstrates a seamless integration of Vertex AI, high-performance API management, 
-and modern frontend design to push the boundaries of creative expression through generative technology.
-
-            </p>
-
-                
-            </section>
-
-        
+                <p>
+                    The application prioritizes a professional user experience through a minimalist, responsive interface featuring drag-and-drop 
+                    functionality and real-time processing updates. Beyond simple media conversion, Echoes of Time provides an explainable AI component by presenting
+                    users with a detailed reasoning summary that justifies the musical choices—such as instrumentation and tempo—based on the detected visual elements. 
+                    Engineered for scalability within the Google Cloud ecosystem, the project demonstrates a seamless integration of Vertex AI, high-performance API management, 
+                    and modern frontend design to push the boundaries of creative expression through generative technology.
+                </p>
+            </div>
+        </section>
 
         <section>
             <h2>Technologies</h2>
             <p class="about-text">Google Gemini 1.5 Flash, Google Lyria-002, Vertex AI API, Node.js, Express.js, JavaScript (ES6+), HTML5, CSS3, Google Cloud Platform, Multimodal AI, Video-to-Text Analysis, Music Synthesis, Frame Extraction, RESTful Architecture, Drag-and-Drop API</p>
         </section>
 
-
         <section>
             <h2>Links</h2>
-            <p class="about-text">
+            <ul class="about-text" style="list-style-type: none;">
                 <li><a href="https://surajvinaykumar-crisis-intel-app-9lux5a.streamlit.app/">Live</a></li>
-                
                 <li><a href="https://github.com/Girlcoding22/Echoes_of_Time">Github</a></li>
-                
-                
-                
-
-
-
-                
-            </p>
+            </ul>
         </section>
     </main>
 </body>
-
 </html>
